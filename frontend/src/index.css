@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eef4ff;
+  --color-brand-100: #dbe6ff;
+  --color-brand-500: #3b6ef5;
+  --color-brand-600: #2a55d8;
+  --color-brand-700: #1f44b0;
+  
+  --color-ink-400: #94a3b8;
+  --color-ink-500: #64748b;
+  --color-ink-600: #334155;
+  --color-ink-700: #1e293b;
+  --color-ink-800: #0f172a;
+  --color-ink-900: #0b1220;
+
+  --shadow-card: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+
+  --animate-fadeIn: fadeIn 150ms ease-out;
+  --animate-scaleIn: scaleIn 200ms ease-out;
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.96) translateY(-4px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  @apply bg-white text-slate-900;
+}
+.dark body {
+  @apply bg-ink-900 text-slate-100;
+}
+
+.input {
+  @apply w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 outline-none placeholder:text-slate-400 transition-colors duration-150 ease-out focus:border-brand-500 focus:ring-1 focus:ring-brand-500;
+  @apply dark:border-ink-600 dark:bg-ink-800 dark:text-slate-100 dark:placeholder:text-slate-500;
+}
+.shadow-card {
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+.dark .shadow-card {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+/* Reusable hover/transition atoms */
+.transition-base { @apply transition-all duration-150 ease-out; }
+.hover-lift { @apply transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-md active:translate-y-0; }
+.hover-glow { @apply transition-all duration-200 ease-out hover:shadow-lg hover:shadow-brand-500/20 dark:hover:shadow-brand-500/30; }
+.hover-tint { @apply transition-colors duration-150 ease-out; }
+
+/* Rich-text description rendering (used wherever a job description HTML is shown) */
+.prose-content { line-height: 1.6; }
+.prose-content p { margin: 0 0 0.6em; }
+.prose-content p:last-child { margin-bottom: 0; }
+.prose-content ul { margin: 0 0 0.6em; padding-left: 1.25rem; list-style: disc; }
+.prose-content ol { margin: 0 0 0.6em; padding-left: 1.25rem; list-style: decimal; }
+.prose-content li { margin: 0.15em 0; }
+.prose-content a { color: #4f46e5; text-decoration: underline; }
+.prose-content a:hover { color: #4338ca; }
+.prose-content strong { font-weight: 600; }
+.prose-content em { font-style: italic; }
