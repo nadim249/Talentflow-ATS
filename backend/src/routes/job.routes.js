@@ -6,7 +6,7 @@ const {
   createJob,
   updateJob,
   deleteJob,
-} = require('../controllers/jobController');
+} = require('../controllers/job.controller');
 
 router.use(authMiddleware);
 

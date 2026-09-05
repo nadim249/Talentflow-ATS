@@ -1,9 +1,9 @@
 // src/controllers/interviewController.js
 // CRUD for interviews. All queries are scoped by req.user._id.
 const mongoose = require('mongoose');
-const Interview = require('../models/Interview');
-const Candidate = require('../models/Candidate');
-const { MODES, STATUSES } = require('../models/Interview');
+const Interview = require('../models/interview.model');
+const Candidate = require('../models/candidate.model');
+const { MODES, STATUSES } = require('../models/interview.model');
 
 // GET /api/interviews?from=&to=&status=&candidateId=
 async function listInterviews(req, res) {
