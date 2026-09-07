@@ -1,4 +1,4 @@
-const candidate = require('../models/candidate.model');
+const Candidate = require('../models/candidate.model');
 const { cloudinary } = require('../config/cloudinary');
 const { STAGES } = require('../models/candidate.model');
 
@@ -16,7 +16,7 @@ async function listCandidates(req, res) {
       filter.$or = [{ name: rx }, { email: rx }, { skills: rx }];
     }
 
-    const candidates = await candidate.find(filter)
+    const candidates = await Candidate.find(filter)
       .populate('appliedJob', 'title department status')
       .sort({ createdAt: -1 });
 
@@ -57,7 +57,7 @@ async function createCandidate(req, res) {
       payload.resumePublicId = req.cloudinary.publicId;
     }
 
-    const candidate = await candidate.create(payload);
+    const candidate = await Candidate.create(payload);
     res.status(201).json(candidate);
   } catch (err) {
     // Roll back Cloudinary upload if DB save fails.
@@ -71,7 +71,7 @@ async function createCandidate(req, res) {
 // GET /api/candidates/:id
 async function getCandidate(req, res) {
   try {
-    const candidate = await candidate.findOne({ _id: req.params.id, recruiter: req.user._id })
+    const candidate = await Candidate.findOne({ _id: req.params.id, recruiter: req.user._id })
       .populate('appliedJob', 'title department status location');
     if (!candidate) return res.status(404).json({ message: 'Candidate not found' });
     res.json(candidate);
@@ -87,7 +87,7 @@ async function addNote(req, res) {
     if (!text || !text.trim()) {
       return res.status(400).json({ message: 'Note text is required' });
     }
-    const candidate = await candidate.findOne({ _id: req.params.id, recruiter: req.user._id });
+    const candidate = await Candidate.findOne({ _id: req.params.id, recruiter: req.user._id });
     if (!candidate) return res.status(404).json({ message: 'Candidate not found' });
     candidate.notes.push({ text: text.trim() });
     await candidate.save();
@@ -104,7 +104,7 @@ async function updateStage(req, res) {
     if (!STAGES.includes(stage)) {
       return res.status(400).json({ message: `Stage must be one of: ${STAGES.join(', ')}` });
     }
-    const candidate = await candidate.findOne({ _id: req.params.id, recruiter: req.user._id });
+    const candidate = await Candidate.findOne({ _id: req.params.id, recruiter: req.user._id });
     if (!candidate) return res.status(404).json({ message: 'Candidate not found' });
     candidate.stage = stage;
     await candidate.save();
@@ -117,7 +117,7 @@ async function updateStage(req, res) {
 // DELETE /api/candidates/:id  (also removes the resume from Cloudinary)
 async function deleteCandidate(req, res) {
   try {
-    const candidate = await candidate.findOneAndDelete({
+    const candidate = await Candidate.findOneAndDelete({
       _id: req.params.id,
       recruiter: req.user._id,
     });

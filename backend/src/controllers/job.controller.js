@@ -1,4 +1,4 @@
-const job = require('../models/job.model');
+const Job = require('../models/job.model');
 
 // GET /api/jobs?status=&search=
 async function listJobs(req, res) {
@@ -15,7 +15,7 @@ async function listJobs(req, res) {
       ];
     }
 
-    const jobs = await job.find(filter).sort({ createdAt: -1 });
+    const jobs = await Job.find(filter).sort({ createdAt: -1 });
     res.json(jobs);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch jobs', error: err.message });
@@ -29,7 +29,7 @@ async function createJob(req, res) {
     if (!title || !department || !location || !description) {
       return res.status(400).json({ message: 'Missing required job fields' });
     }
-    const job = await job.create({
+    const job = await Job.create({
       title,
       department,
       location,
@@ -48,7 +48,7 @@ async function createJob(req, res) {
 // PUT /api/jobs/:id
 async function updateJob(req, res) {
   try {
-    const job = await job.findOne({ _id: req.params.id, recruiter: req.user._id });
+    const job = await Job.findOne({ _id: req.params.id, recruiter: req.user._id });
     if (!job) return res.status(404).json({ message: 'Job not found' });
 
     const fields = ['title', 'department', 'location', 'employmentType', 'description', 'status'];
@@ -65,7 +65,7 @@ async function updateJob(req, res) {
 // DELETE /api/jobs/:id
 async function deleteJob(req, res) {
   try {
-    const job = await job.findOneAndDelete({ _id: req.params.id, recruiter: req.user._id });
+    const job = await Job.findOneAndDelete({ _id: req.params.id, recruiter: req.user._id });
     if (!job) return res.status(404).json({ message: 'Job not found' });
     res.json({ message: 'Job deleted', id: job._id });
   } catch (err) {
