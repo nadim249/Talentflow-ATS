@@ -23,4 +23,10 @@ cp .env.example .env
 npm install
 npm run dev         # http://localhost:5000
 
+```bash
+#frontend
+cd talentflow/frontend
+cp .env.example .env       # set VITE_API_URL=http://localhost:5000/api
+npm install
+npm run dev                # http://localhost:5173
 
