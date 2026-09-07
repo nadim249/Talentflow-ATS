@@ -21,7 +21,13 @@ const app = express();
 
 // Security & utility middleware.
 app.use(helmet());
-app.use(cors({ origin: process.env.CLIENT_ORIGIN || '*', credentials: true }));
+const clientOrigin = process.env.CLIENT_ORIGIN;
+app.use(
+  cors({
+    origin: clientOrigin && clientOrigin !== '*' ? clientOrigin : true,
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: '2mb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
