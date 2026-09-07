@@ -1,16 +1,56 @@
-# React + Vite
+# TalentFlow ATS — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React (Vite, JavaScript) + Tailwind. Talks to the backend at `VITE_API_URL`.
 
-Currently, two official plugins are available:
+## Setup
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+cd talentflow/frontend
+cp .env.example .env       # set VITE_API_URL=http://localhost:5000/api
+npm install
+npm run dev                # http://localhost:5173
+```
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Script           | What it does                          |
+| ---------------- | ------------------------------------- |
+| `npm run dev`    | Vite dev server with HMR              |
+| `npm run build`  | Production build into `dist/`         |
+| `npm run preview`| Preview the production build          |
 
-## Expanding the ESLint configuration
+## Project layout
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+  components/     AppLayout, Sidebar, Navbar, Modal, StatusBadge, DataTable, ProtectedRoute
+  context/        AuthContext.jsx
+  pages/          Login, Register, Dashboard, Jobs, Candidates, CandidateDetail, Kanban, Interviews, Analytics
+  services/       api.js (Axios instance + grouped helpers)
+  App.jsx         Routes
+  main.jsx        Bootstrap
+```
+
+## Extra features
+
+### Kanban
+
+`/kanban` renders six columns (Applied → Rejected) populated from the candidates
+API. The per-card stage dropdown moves a candidate optimistically and rolls back
+on API failure. No drag library is used.
+
+### Interview scheduling
+
+`/interviews` shows a CSS-grid month calendar plus a 14-day agenda. Create,
+edit, and delete interviews from the modal (`components/InterviewModal.jsx`),
+or schedule one directly from a candidate's detail page.
+
+Backend: `GET/POST/PATCH/DELETE /api/interviews` (scoped by recruiter).
+
+### Analytics dashboard
+
+`/analytics` aggregates `Candidate` + `Job` data into four Recharts panels:
+pipeline by stage, source conversion, avg days per stage, and top jobs.
+
+Backend: `GET /api/analytics/overview?from=&to=` returns
+`{ totals, pipeline, timeInStage, sourceConversion, avgDaysToHire, topJobs, range }`.
