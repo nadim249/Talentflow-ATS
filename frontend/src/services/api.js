@@ -11,8 +11,49 @@ const api = axios.create({
   },
 });
 
+const publicApi = axios.create({
+  baseURL: API_BASE_URL,
+  timeout: 15000,
+  headers: {
+    Accept: 'application/json',
+  },
+});
 
+// REQUEST INTERCEPTOR
 
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('tf_token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// RESPONSE INTERCEPTOR
+api.interceptors.response.use(
+  (response) => {
+    // Returning response directly so callers have standard access
+    return response;
+  },
+  (error) => {
+    // If the server returns 401 Unauthorized, token has expired or is invalid.
+    if (error.response?.status === 401) {
+      localStorage.removeItem('tf_token');
+
+      // Only redirect if not already on the login or register page
+      const currentPath = window.location.pathname;
+      if (!currentPath.startsWith('/login') && !currentPath.startsWith('/register')) {
+        window.location.href = '/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
 
 
 export function getApiErrorMessage(error, fallback = 'Something went wrong') {
@@ -52,6 +93,21 @@ export const authAPI = {
   },
 };
 
+// --- PUBLIC (CAREER PORTAL) ---
+export const publicAPI = {
+  listJobs: async () => {
+    const response = await publicApi.get('/public/jobs');
+    return response.data;
+  },
+  getJob: async (id) => {
+    const response = await publicApi.get(`/public/jobs/${id}`);
+    return response.data;
+  },
+  apply: async (jobId, formData) => {
+    const response = await publicApi.post(`/public/apply/${jobId}`, formData);
+    return response.data;
+  },
+};
 
 
 
