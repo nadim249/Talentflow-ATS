@@ -4,6 +4,10 @@ const User = require('../models/user.model');
 
 // Function to sign a JWT token
 function signToken(userId) {
+  if (!process.env.JWT_SECRET) {
+    console.error('CRITICAL: JWT_SECRET environment variable is not set!');
+    throw new Error('Server configuration error: JWT_SECRET is not set');
+  }
   return jwt.sign({ id: userId }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   });
@@ -32,6 +36,7 @@ async function register(req, res) {
     res.status(201).json({ token, user });
 
   } catch (err) {
+    console.error('Registration error:', err);
     res.status(500).json({ message: 'Registration failed', error: err.message });
   }
 }
@@ -62,6 +67,7 @@ async function login(req, res) {
     res.json({ token, user });
 
   } catch (err) {
+    console.error('Login error:', err);
     res.status(500).json({ message: 'Login failed', error: err.message });
   }
 }
