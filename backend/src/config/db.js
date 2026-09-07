@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 async function connectDB() {
-    try{
+    try {
         const conn = await mongoose.connect(process.env.MONGO_URI, {
             autoIndex: true,
         });
