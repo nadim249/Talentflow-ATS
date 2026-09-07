@@ -125,7 +125,7 @@ export default function Candidates() {
           onChange={(e) => setSearch(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && loadCandidates()}
           placeholder="Search name, email, or skill..."
-          className="input flex-1 min-w-[220px] rounded-md px-3 py-2 text-sm"
+          className="input flex-1 min-w-55 rounded-md px-3 py-2 text-sm"
         />
         <select
           value={stage}

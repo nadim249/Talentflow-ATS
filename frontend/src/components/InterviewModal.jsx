@@ -1,5 +1,4 @@
 // src/components/InterviewModal.jsx
-// Create or edit an interview. Supports initialData for edit mode.
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -9,7 +8,6 @@ import { candidatesAPI, jobsAPI, interviewsAPI, getApiErrorMessage } from '../se
 const MODES = ['Phone', 'Video', 'Onsite'];
 const STATUSES = ['Scheduled', 'Completed', 'Cancelled', 'No-show'];
 
-// Convert an ISO date to the value <input type="datetime-local"> expects.
 function toLocalInput(iso) {
   if (!iso) return '';
   const d = new Date(iso);
