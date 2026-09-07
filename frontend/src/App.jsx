@@ -12,6 +12,12 @@ import RootRedirect from "./components/RootRedirect";
 
 const AppLayout = lazy(() => import("./components/AppLayout"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
+const Jobs = lazy(() => import('./pages/Jobs'));
+const Candidates = lazy(() => import('./pages/Candidates'));
+const CandidateDetail = lazy(() => import('./pages/CandidateDetail'));
+const Kanban = lazy(() => import('./pages/Kanban'));
+const Interviews = lazy(() => import('./pages/Interviews'));
+const Analytics = lazy(() => import('./pages/Analytics'));
 
 const Login = lazy(() => import("./pages/Login"));
 const Register = lazy(() => import("./pages/Register"));
@@ -65,6 +71,12 @@ function App() {
             }
           >
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/candidates" element={<Candidates />} />
+            <Route path="/candidates/:id" element={<CandidateDetail />} />
+            <Route path="/kanban" element={<Kanban />} />
+            <Route path="/interviews" element={<Interviews />} />
+            <Route path="/analytics" element={<Analytics />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

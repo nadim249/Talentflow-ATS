@@ -93,6 +93,27 @@ export const authAPI = {
   },
 };
 
+// --- JOBS ---
+export const jobsAPI = {
+  // params can include { search, status }
+  list: async (params) => {
+    const response = await api.get('/jobs', { params });
+    return response.data;
+  },
+  create: async (payload) => {
+    const response = await api.post('/jobs', payload);
+    return response.data;
+  },
+  update: async (id, payload) => {
+    const response = await api.put(`/jobs/${id}`, payload);
+    return response.data;
+  },
+  remove: async (id) => {
+    const response = await api.delete(`/jobs/${id}`);
+    return response.data;
+  },
+};
+
 // --- PUBLIC (CAREER PORTAL) ---
 export const publicAPI = {
   listJobs: async () => {
