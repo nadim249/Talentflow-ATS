@@ -4,7 +4,11 @@
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router";
 import toast from "react-hot-toast";
+import { Moon, Sun } from 'lucide-react';
+
 import { useAuth } from "../context/AuthContext";
+import { useTheme } from '../context/ThemeContext';
+
 import { getApiErrorMessage } from "../services/api";
 import PasswordInput from "../components/PasswordInput";
 
@@ -15,6 +19,7 @@ export default function Register() {
     formState: { errors, isSubmitting },
   } = useForm();
   const { register: signup } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const onSubmit = async (data) => {
@@ -29,7 +34,15 @@ export default function Register() {
 
   return (
     <div className="grid min-h-screen place-items-center bg-slate-50 p-4 dark:bg-ink-900">
-
+  {/* Dark / Light mode toggle */}
+      <button
+        onClick={toggleTheme}
+        className="fixed right-4 top-4 rounded-md p-2 text-slate-500 transition-all duration-150 ease-out hover:bg-slate-100 hover:text-brand-600 active:scale-90 dark:text-slate-300 dark:hover:bg-ink-700 dark:hover:text-brand-400"
+        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        aria-label="Toggle theme"
+      >
+        {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+      </button>
 
       <form
         onSubmit={handleSubmit(onSubmit)}

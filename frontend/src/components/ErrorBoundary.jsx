@@ -1,6 +1,4 @@
 // src/components/ErrorBoundary.jsx
-// Catches unexpected React rendering errors and displays a friendly recovery UI
-// instead of a blank white screen.
 
 import { Component } from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
