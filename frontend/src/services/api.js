@@ -114,6 +114,66 @@ export const jobsAPI = {
   },
 };
 
+
+// --- CANDIDATES ---
+export const candidatesAPI = {
+  // params can include { search, stage }
+  list: async (params) => {
+    const response = await api.get('/candidates', { params });
+    return response.data;
+  },
+  // Note: For FormData (file uploads), Axios automatically sets
+  // 'Content-Type: multipart/form-data' with the correct boundary.
+  create: async (formData) => {
+    const response = await api.post('/candidates', formData);
+    return response.data;
+  },
+  get: async (id) => {
+    const response = await api.get(`/candidates/${id}`);
+    return response.data;
+  },
+  addNote: async (id, text) => {
+    const response = await api.post(`/candidates/${id}/notes`, { text });
+    return response.data;
+  },
+  updateStage: async (id, stage) => {
+    const response = await api.patch(`/candidates/${id}/stage`, { stage });
+    return response.data;
+  },
+  remove: async (id) => {
+    const response = await api.delete(`/candidates/${id}`);
+    return response.data;
+  },
+};
+
+// --- INTERVIEWS ---
+export const interviewsAPI = {
+  list: async (params) => {
+    const response = await api.get('/interviews', { params });
+    return response.data;
+  },
+  create: async (payload) => {
+    const response = await api.post('/interviews', payload);
+    return response.data;
+  },
+  update: async (id, payload) => {
+    const response = await api.patch(`/interviews/${id}`, payload);
+    return response.data;
+  },
+  remove: async (id) => {
+    const response = await api.delete(`/interviews/${id}`);
+    return response.data;
+  },
+};
+
+// --- ANALYTICS ---
+export const analyticsAPI = {
+  overview: async (params) => {
+    const response = await api.get('/analytics/overview', { params });
+    return response.data;
+  },
+};
+
 // --- PUBLIC (CAREER PORTAL) ---
 export const publicAPI = {
   listJobs: async () => {
