@@ -1,6 +1,6 @@
 # TalentFlow ATS
 
-A clean, beginner-friendly MERN Applicant Tracking System.
+TalentFlow ATS is a beginner-friendly MERN-based Applicant Tracking System for managing jobs, candidates, resumes, interviews, and recruitment pipelines.
 
 ## Features
 
